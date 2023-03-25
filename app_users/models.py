@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
+from app_accounts.models import Account
 from .managers import CustomUserManager
 from .validators import avatar_size_validate, document_size_validate
 
@@ -66,7 +67,7 @@ class CustomUser(AbstractBaseUser, MPTTModel, PermissionsMixin):
                                                   null=True)
     payment_account = models.CharField(_('Расчетный счет'), max_length=55, blank=True, null=True)
     recipients_name = models.CharField(_('Имя получателя платежа'), max_length=255, blank=True)
-    account = models.ForeignKey('Account', on_delete=models.PROTECT)  # счёт в паевом фонде
+    account = models.ForeignKey(Account, on_delete=models.PROTECT, default=None)  # счёт в паевом фонде
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
